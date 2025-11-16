@@ -18,24 +18,12 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if(WIN32)
-    set(USERHOME $ENV{USERPROFILE})
-else()
-    set(USERHOME $ENV{HOME})
-endif()
-set(sdkVersion 2.2.0)
-set(toolchainVersion 14_2_Rel1)
-set(picotoolVersion 2.2.0-a4)
-set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
-if (EXISTS ${picoVscode})
-    include(${picoVscode})
-endif()
 
 set(PICO_BOARD pico_w CACHE STRING "Board type")
 
 include(pico_sdk_import.cmake)
 
-project(Pico-Timer C CXX ASM)
+project(PicoTimer C CXX ASM)
 
 pico_sdk_init()
 
@@ -65,20 +53,26 @@ file(GLOB_RECURSE SOURCES
 )
 
 
-add_library(Pico-Timer STATIC ${SOURCES})
+add_library(PicoTimer STATIC ${SOURCES})
 
-pico_set_program_name(Pico-Timer "Pico-Timer")
-pico_set_program_version(Pico-Timer "0.1")
+pico_set_program_name(PicoTimer "PicoTimer")
+pico_set_program_version(PicoTimer "0.1")
 
-pico_enable_stdio_uart(Pico-Timer 0)
-pico_enable_stdio_usb(Pico-Timer 0)
+pico_enable_stdio_uart(PicoTimer 0)
+pico_enable_stdio_usb(PicoTimer 0)
 
-target_include_directories(Pico-Timer PRIVATE
+target_include_directories(PicoTimer PUBLIC
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Include>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+
+target_include_directories(PicoTimer PUBLIC
     "${CMAKE_CURRENT_LIST_DIR}/include"
 )
 
-target_link_libraries(Pico-Timer 
-    PRIVATE
+target_link_libraries(PicoTimer 
+    PUBLIC
     PicoLogging      # from installed package
     pico_stdlib
 )

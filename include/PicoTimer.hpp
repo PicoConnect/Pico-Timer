@@ -1,8 +1,9 @@
 #pragma once
 #include <ILog.h>
 #include <functional>
+#include <IPicoTimer.hpp>
 
-class PicoTimer
+class PicoTimer : public IPicoTimer
 {
 private:
     ILog* m_pLog;
