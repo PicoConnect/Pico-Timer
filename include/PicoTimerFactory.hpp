@@ -1,7 +1,7 @@
 #include <IPicoTimerFactory.hpp>
 #include "IPicoTimer.hpp"
 
-class PicoTimerFactory : IPicoTimerFactory
+class PicoTimerFactory : public IPicoTimerFactory
 {
 private:
     ILog* m_pLog;
